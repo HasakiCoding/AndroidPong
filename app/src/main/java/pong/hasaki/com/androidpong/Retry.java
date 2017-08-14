@@ -18,9 +18,19 @@ public class Retry extends Activity {
 
     public class GameView extends View {
 
+        private boolean check = false;
+
         public GameView(Context context) {
             super(context);
-            init();//set all the objects
+        }
+
+        public void onDraw (Canvas canvas){
+            if(!check) {
+                init(canvas);//set all the objects
+                check = true;
+            } else {
+                continue;
+            }
             run(){ //loop at 60 FPS (1000/60)
                 objects.render();//render all of our objects
                 ball.move();//logical movement of the ball
