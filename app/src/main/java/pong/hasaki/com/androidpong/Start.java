@@ -14,11 +14,19 @@ public class Start extends Activity {
         setContentView(R.layout.start);
 
         Button start = findViewById(R.id.btnstart);
+        Button restart = findViewById(R.id.btnrestart);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent("pong.hasaki.com.androidpong.GAME"));
+            }
+        });
+
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent("pong.hasaki.com.androidpong.RETRY"));
             }
         });
     }

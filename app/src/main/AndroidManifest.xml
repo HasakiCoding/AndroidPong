@@ -26,6 +26,14 @@ package="pong.hasaki.com.androidpong">
         </intent-filter>
     </activity>
 
+    <activity android:name=".Retry" android:theme="@style/FullScreen"
+        android:screenOrientation="landscape">
+        <intent-filter>
+            <action android:name="pong.hasaki.com.androidpong.RETRY" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+
 </application>
 
 </manifest>
