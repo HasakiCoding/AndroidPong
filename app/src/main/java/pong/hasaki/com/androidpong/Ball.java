@@ -7,7 +7,8 @@ public class Ball {
 
     private int color;
     float centerX, centerY, radius;
-    float directionX = 10, directionY = 10;
+    //float directionX = 10, speedX = 10;
+    double speedX, speedY;
     //int bot;
 
     Ball(int color, float centerX, float centerY, float radius){
@@ -24,23 +25,15 @@ public class Ball {
         canvas.drawCircle(centerX, centerY, radius, p);
     }
 
-    public void move(double moveX, double moveY, int bot, int right){
+    public void move(double moveX, double moveY){
         centerX += moveX;
         centerY += moveY;
-        if(this.centerY - this.radius <= 0){
-            directionY = -directionY;
-        } else if(this.centerY + this.radius >= bot){
-            directionY = -directionY;
-        } else if(this.centerX - this.radius <= 0){
-            directionX = -directionX;
-        } else if(this.centerX + this.radius >= right){
-            directionX = -directionX;
-        }
     }
 
     public void reset(int width, int height){
         this.centerX = width / 2 - radius;
         this.centerY = height / 2 - radius;
-        //speedX = Math.signum(Math.random() * 2 - 1) * Math.ceil(Math.random() * )
+        speedX = (Math.signum(Math.random() * 2 - 1) * Math.ceil(Math.random() * 2 + 9));
+        speedY = (Math.signum(Math.random() * 2 - 1) * 20 - Math.abs(speedX));
     }
 }

@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     static float radius = 30;
 
     //int directionX = 10;
-    //int directionY = 10;
+    //int speedX = 10;
 
     public GameView(Context context) {
         super(context);
@@ -58,12 +58,14 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = holder.lockCanvas();
             if(!setup) {
                 init(canvas);
+                gameball.reset(canvas.getWidth(), canvas.getHeight());
                 setup = true;
             }
             //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
+            gameball.move(gameball.speedX, gameball.speedY);
+            comp2();
+            collide();
             gameRender(canvas);
-            gameball.move(gameball.directionX, gameball.directionY, canvas.getHeight(), canvas.getWidth());
-            //gameball.collide(canvas.getWidth(), canvas.getHeight());
             holder.unlockCanvasAndPost(canvas);
         }
     }
@@ -108,4 +110,29 @@ public class GameView extends SurfaceView implements Runnable {
     public void reset(){
         gameball.reset(canvas.getWidth(), canvas.getHeight());
     }
+
+    public void collide() {
+        if (gameball.centerY - gameball.radius <= 0) {
+            gameball.speedY = -gameball.speedY;
+        } else if (gameball.centerY + gameball.radius >= canvas.getHeight()) {
+            gameball.speedY = -gameball.speedY;
+        } else if (Math.abs(gameball.centerX - paddle1.centerX) <= gameball.radius + (paddle1.width * 0.5) && Math.abs(gameball.centerY - paddle1.centerY) <= gameball.radius + (paddle1.height * 0.5)) {
+            gameball.speedX = -gameball.speedX;
+        } else if (Math.abs(gameball.centerX - paddle2.centerX) <= gameball.radius + (paddle2.width * 0.5) && Math.abs(gameball.centerY - paddle2.centerY) <= gameball.radius + (paddle2.height * 0.5)) {
+            gameball.speedX = -gameball.speedX;
+        } else if (gameball.centerX - gameball.radius <= 0) {
+            gameball.speedX = -gameball.speedX;
+            reset();
+        } else if (gameball.centerX + gameball.radius >= canvas.getWidth()) {
+            gameball.speedX = -gameball.speedX;
+            reset();
+        }
+    }
+        public void comp2() {
+            if(paddle2.centerY < gameball.centerY - 35){
+                paddle2.centerY += 15;
+            } else if(paddle2.centerY > gameball.centerY + 35){
+                paddle2.centerY -= 15;
+            }
+        }
 }
