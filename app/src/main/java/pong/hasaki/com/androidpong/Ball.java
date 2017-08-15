@@ -7,7 +7,7 @@ public class Ball {
 
     private int color;
     float centerX, centerY, radius;
-    float directionX, directionY;
+    //float directionX = 10, directionY = 10;
 
     Ball(int color, float centerX, float centerY, float radius){
         this.color = color;

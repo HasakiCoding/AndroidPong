@@ -7,6 +7,7 @@ public class Rectangle {
 
     int color;
     float left, top, right, bottom;
+    double centerX, centerY;
 
     Rectangle(int color, int left,  int top, int width, int height) {
         this.color = color;
@@ -14,6 +15,8 @@ public class Rectangle {
         this.top = top;
         this.right = left + width;
         this.bottom = top + height;
+        this.centerX = left + width * 0.5;
+        this.centerY = top + height * 0.5;
     }
 
     public void render(Canvas canvas){

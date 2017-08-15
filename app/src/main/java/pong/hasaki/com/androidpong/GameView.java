@@ -2,7 +2,6 @@ package pong.hasaki.com.androidpong;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,6 +24,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     static int width = 20, height = 300;
     static float radius = 30;
+
+    int directionX = 10;
+    int directionY = 10;
 
     public GameView(Context context) {
         super(context);
@@ -60,7 +62,8 @@ public class GameView extends SurfaceView implements Runnable {
             }
             //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
             gameRender(canvas);
-            gameball.move(gameball.directionX, gameball.directionY);
+            gameball.move(directionX, directionY);
+            collide();
             holder.unlockCanvasAndPost(canvas);
         }
     }
@@ -102,9 +105,13 @@ public class GameView extends SurfaceView implements Runnable {
         gameball.render(canvas);
     }
 
-    //public void collide(){
-    //    if(gameball.centerY >= )
-    //}
+    public void collide(){
+        if(gameball.centerY + gameball.radius <= top.centerY){
+            directionX = -directionX;
+        } else if(gameball.centerY - gameball.radius >= bot.centerY){
+            directionX = -directionX;
+        }
+    }
 
     public void reset(){
         gameball.reset(canvas.getWidth(), canvas.getHeight());
