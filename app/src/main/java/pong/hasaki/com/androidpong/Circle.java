@@ -13,14 +13,12 @@ public class Circle {
         this.color = color;
         this.radius = radius;
 
-        circle = new Shape(centerX, centerY);
+        circle = new Shape(centerX, centerY, color);
     }
 
     public void render(Canvas canvas){
-        Paint paint = new Paint();
-        paint.setColor(color);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(circle.centerX, circle.centerY, this.radius, paint);
+        circle.render();
+        canvas.drawCircle(circle.centerX, circle.centerY, this.radius, circle.p);
     }
 
     public void move(int moveX, int moveY){

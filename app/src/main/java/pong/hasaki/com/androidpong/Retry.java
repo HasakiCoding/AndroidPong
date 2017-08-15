@@ -94,7 +94,7 @@ public class Retry extends Activity implements OnTouchListener{
     }
 
     public void init(Canvas canvas){
-        field = new Rectangle(Color.BLACK, 0, 0, canvas.getWidth(), canvas.getHeight(), 1);
+        field = new Rectangle(Color.BLACK, 0, 0, canvas.getWidth(), canvas.getHeight());
         paddle1 = new Paddle(Color.WHITE, 10, canvas.getHeight() / 2, width, height);
         paddle2 = new Paddle(Color.WHITE, canvas.getWidth() - 10, canvas.getHeight() / 2, width, height);
         gameball = new Ball(Color.WHITE, canvas.getWidth() / 2 - radius, canvas.getHeight() / 2 - radius, radius);
@@ -112,13 +112,13 @@ public class Retry extends Activity implements OnTouchListener{
 
         switch(me.getAction()){
             case MotionEvent.ACTION_DOWN:
-                paddle1.centerY = me.getY();
+                paddle1.centerY = (int)me.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                paddle1.centerY = me.getY();
+                paddle1.centerY = (int)me.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                paddle1.centerY = me.getY();
+                paddle1.centerY = (int)me.getY();
                 break;
         }
         return true;

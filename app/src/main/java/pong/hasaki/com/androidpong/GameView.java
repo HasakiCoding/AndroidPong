@@ -8,6 +8,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
+
 public class GameView extends SurfaceView implements Runnable {
 
     Thread t = null;
@@ -15,7 +18,7 @@ public class GameView extends SurfaceView implements Runnable {
     boolean started = false, setup = false;
     Canvas canvas;
 
-    Rectangle field;
+    Rectangle field, top, left, bot, right;
     Paddle paddle1;
     Paddle paddle2;
     Ball gameball;
@@ -45,7 +48,7 @@ public class GameView extends SurfaceView implements Runnable {
         });
     }
 
-    public void run() {
+    public void run(){
         while(started){
             if(!holder.getSurface().isValid()){
                 continue;
@@ -57,8 +60,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
             //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
             gameRender(canvas);
-            gameball.move(10, 10);
-
+            gameball.move(gameball.directionX, gameball.directionY);
             holder.unlockCanvasAndPost(canvas);
         }
     }
@@ -83,10 +85,14 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void init(Canvas canvas){
-        field = new Rectangle(Color.BLACK, 0, 0, canvas.getWidth(), canvas.getHeight(), 1);
-        paddle1 = new Paddle(Color.WHITE, 10, canvas.getHeight() / 2, width, height);
-        paddle2 = new Paddle(Color.WHITE, canvas.getWidth() - 10, canvas.getHeight() / 2, width, height);
-        gameball = new Ball(Color.WHITE, canvas.getWidth() / 2 - radius, canvas.getHeight() / 2 - radius, radius);
+        field = new Rectangle(BLACK, 0, 0, canvas.getWidth(), canvas.getHeight());
+        top = new Rectangle(WHITE, 0, 0, canvas.getWidth(), 0);
+        left = new Rectangle(WHITE, 0, 0, 0, canvas.getHeight());
+        bot = new Rectangle(WHITE, 0, canvas.getHeight(), canvas.getWidth(), 0);
+        right = new Rectangle(WHITE, canvas.getWidth(), 0, 0, canvas.getHeight());
+        paddle1 = new Paddle(WHITE, 10, canvas.getHeight() / 2 , width, height);
+        paddle2 = new Paddle(WHITE, canvas.getWidth() - 10, canvas.getHeight() / 2, width, height);
+        gameball = new Ball(WHITE, canvas.getWidth() / 2 - radius, canvas.getHeight() / 2 - radius, radius);
     }
 
     public void gameRender(Canvas canvas){
@@ -94,5 +100,13 @@ public class GameView extends SurfaceView implements Runnable {
         paddle1.render(canvas);
         paddle2.render(canvas);
         gameball.render(canvas);
+    }
+
+    //public void collide(){
+    //    if(gameball.centerY >= )
+    //}
+
+    public void reset(){
+        gameball.reset(canvas.getWidth(), canvas.getHeight());
     }
 }
