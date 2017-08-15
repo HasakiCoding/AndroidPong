@@ -1,4 +1,4 @@
-package pong.hasaki.com.androidpong.;
+package pong.hasaki.com.androidpong;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,26 +14,26 @@ import android.view.SurfaceView;
 import android.view.View.OnTouchListener;
 import android.view.View;
 
-import pong.hasaki.com.androidpong.R;
-
-
 public class Retry extends Activity implements OnTouchListener{
 
     OurView v;
     Bitmap ball;
     float x, y;
-    Paint blue = new Paint();
+    Paint white = new Paint();
+    Paint black = new Paint();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         v = new OurView(this);
         v.setOnTouchListener(this);
-        ball = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
+        //ball = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
         x = y = 0;
         setContentView(v);
-        blue.setColor(Color.BLUE);
-        blue.setStyle(Paint.Style.FILL);
+        white.setColor(Color.WHITE);
+        white.setStyle(Paint.Style.FILL);
+        black.setColor(Color.BLACK);
+        black.setStyle(Paint.Style.FILL);
     }
 
     protected void onPause(){
@@ -46,31 +46,49 @@ public class Retry extends Activity implements OnTouchListener{
         v.resume();
     }
 
-    public class OurView  extends SurfaceView implements Runnable {
+    public class OurView extends SurfaceView implements Runnable {
 
         Thread t = null;
         SurfaceHolder holder;
-        boolean isItOK = false;
+        boolean started = false, setup = false;
+        Canvas canvas;
+        Paddle paddle1;
 
         public OurView(Context context) {
             super(context);
             holder = getHolder();
+            //canvas = holder.lockCanvas();
+            //init();
         }
 
         public void run() {
-            while(isItOK){
+            while(started){
                 if(!holder.getSurface().isValid()){
                     continue;
                 }
-                Canvas c = holder.lockCanvas();
-                c.drawARGB(255, 150, 150, 10);
-                c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
-                holder.unlockCanvasAndPost(c);
+                canvas = holder.lockCanvas();
+                if(!setup) {
+                    paddle1 = new Paddle(Color.WHITE, 10, Math.round(y), 20, 300);
+                }
+                //canvas = holder.lockCanvas();
+                //canvas.drawRect(0, y - 150, 20, y + 150, white);
+                //canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), black);
+                //canvas.drawRect(canvas.getWidth() - 20, canvas.getHeight() / 2 - 150, canvas.getWidth(), canvas.getHeight() / 2+ 150, white);
+                //canvas.drawCircle(canvas.getWidth() / 2 - 20, canvas.getHeight() / 2 - 20, 20, white);
+                //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
+
+                paddle1.render(canvas);
+                holder.unlockCanvasAndPost(canvas);
             }
         }
 
+        //public void init() {
+            //Paddle paddle1 = new Paddle(Color.WHITE, 10, canvas.getHeight() - 150 , 30, canvas.getHeight() + 150);
+
+        //}
+
         public void pause(){
-            isItOK = false;
+            started = false;
             while(true){
                 try {
                     t.join();
@@ -83,7 +101,7 @@ public class Retry extends Activity implements OnTouchListener{
         }
 
         public void resume(){
-            isItOK = true;
+            started = true;
             t = new Thread(this);
             t.start();
         }
@@ -91,12 +109,6 @@ public class Retry extends Activity implements OnTouchListener{
 
     @Override
     public boolean onTouch(View v, MotionEvent me) {
-
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
 
         switch(me.getAction()){
             case MotionEvent.ACTION_DOWN:
