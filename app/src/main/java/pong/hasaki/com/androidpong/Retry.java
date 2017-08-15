@@ -1,59 +1,76 @@
-package pong.hasaki.com.androidpong;
+package pong.hasaki.com.androidpong.;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View.OnTouchListener;
+import android.view.View;
 
-public class Retry extends Activity {
+import pong.hasaki.com.androidpong.R;
 
-    GameView v = new GameView(this);
-    Thread t = null;
+
+public class Retry extends Activity implements OnTouchListener{
+
+    OurView v;
+    Bitmap ball;
+    float x, y;
+    Paint blue = new Paint();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        v = new OurView(this);
+        v.setOnTouchListener(this);
+        ball = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
+        x = y = 0;
         setContentView(v);
+        blue.setColor(Color.BLUE);
+        blue.setStyle(Paint.Style.FILL);
     }
 
-    public void onPause() {
+    protected void onPause(){
         super.onPause();
         v.pause();
     }
 
-    public void onResume() {
+    protected void onResume(){
         super.onResume();
         v.resume();
     }
 
-    public class GameView extends SurfaceView implements Runnable{
+    public class OurView  extends SurfaceView implements Runnable {
 
-        private boolean check = false;
-        public boolean running;
+        Thread t = null;
         SurfaceHolder holder;
-        Paint black = new Paint();
-        Paint white = new Paint();
+        boolean isItOK = false;
 
-        public GameView(Context context) {
+        public OurView(Context context) {
             super(context);
             holder = getHolder();
         }
 
-        public void run (){
-            Canvas canvas = holder.lockCanvas();
-            if(!check) {
-                init(canvas);//set all the objects
-                check = true;
+        public void run() {
+            while(isItOK){
+                if(!holder.getSurface().isValid()){
+                    continue;
+                }
+                Canvas c = holder.lockCanvas();
+                c.drawARGB(255, 150, 150, 10);
+                c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
+                holder.unlockCanvasAndPost(c);
             }
-            render(canvas);//render all of our objects
         }
 
         public void pause(){
-            running = false;
+            isItOK = false;
             while(true){
                 try {
                     t.join();
@@ -65,26 +82,36 @@ public class Retry extends Activity {
             t = null;
         }
 
-        public void resume() {
-            running = true;
+        public void resume(){
+            isItOK = true;
             t = new Thread(this);
             t.start();
         }
+    }
 
-        public void init (Canvas canvas){
-            black.setColor(Color.BLACK);
-            black.setStyle(Paint.Style.FILL);
-            white.setColor(Color.WHITE);
-            white.setStyle(Paint.Style.FILL);
-            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), black);
-            canvas.drawRect(0, canvas.getHeight() / 2 - 150, 20, canvas.getHeight() / 2 + 150, white);
-            canvas.drawRect(canvas.getWidth(), canvas.getHeight() / 2 - 150, canvas.getWidth() - 20, canvas.getHeight() / 2 + 150, white);
+    @Override
+    public boolean onTouch(View v, MotionEvent me) {
+
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
 
-        public void render (Canvas canvas){
-            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), black);
-            canvas.drawRect(0, canvas.getHeight() / 2 - 150, 20, canvas.getHeight() / 2 + 150, white);
-            canvas.drawRect(canvas.getWidth(), canvas.getHeight() / 2 - 150, canvas.getWidth() - 20, canvas.getHeight() / 2 + 150, white);
+        switch(me.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x = me.getX();
+                y = me.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x = me.getX();
+                y = me.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                x = me.getX();
+                y = me.getY();
+                break;
         }
+        return true;
     }
 }
