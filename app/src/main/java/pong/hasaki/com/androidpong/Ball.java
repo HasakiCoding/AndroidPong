@@ -25,6 +25,7 @@ public class Ball {
     }
 
     public void move(int moveX, int moveY){
-        //ball.move(moveX, moveY);
+        centerX += moveX;
+        centerY += moveY;
     }
 }

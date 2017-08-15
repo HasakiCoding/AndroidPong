@@ -83,9 +83,11 @@ public class Retry extends Activity implements OnTouchListener{
                 }
                 //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
 
-                gameball.centerY += 10;
-                gameball.centerX += 10;
+                //gameball.centerY += 10;
+                //gameball.centerX += 10;
 
+                gameball.move(10, 10);
+                
                 field.render(canvas);
                 paddle1.render(canvas);
                 paddle2.render(canvas);
