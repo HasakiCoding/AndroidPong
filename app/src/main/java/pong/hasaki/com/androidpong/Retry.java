@@ -21,6 +21,8 @@ public class Retry extends Activity implements OnTouchListener{
     float x, y;
     Paint white = new Paint();
     Paint black = new Paint();
+    static int width = 20, height = 300;
+    static float radius = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +54,15 @@ public class Retry extends Activity implements OnTouchListener{
         SurfaceHolder holder;
         boolean started = false, setup = false;
         Canvas canvas;
+        Rectangle field;
         Paddle paddle1;
+        Paddle paddle2;
+        Ball gameball;
+        float ballX, ballY;
 
         public OurView(Context context) {
             super(context);
             holder = getHolder();
-            //canvas = holder.lockCanvas();
-            //init();
         }
 
         public void run() {
@@ -68,24 +72,24 @@ public class Retry extends Activity implements OnTouchListener{
                 }
                 canvas = holder.lockCanvas();
                 if(!setup) {
-                    paddle1 = new Paddle(Color.WHITE, 10, Math.round(y), 20, 300);
+                    ballX = canvas.getWidth() / 2 - radius;
+                    ballY = canvas.getHeight() / 2 - radius;
+
+                    field = new Rectangle(Color.BLACK, 0, 0, canvas.getWidth(), canvas.getHeight(), 1);
+                    paddle1 = new Paddle(Color.WHITE, 10, Math.round(y), width, height);
+                    paddle2 = new Paddle(Color.WHITE, canvas.getWidth() - 10, canvas.getHeight() / 2, width, height);
+                    gameball = new Ball(Color.WHITE, ballX, ballY, radius);
+                    setup = true;
                 }
-                //canvas = holder.lockCanvas();
-                //canvas.drawRect(0, y - 150, 20, y + 150, white);
-                //canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), black);
-                //canvas.drawRect(canvas.getWidth() - 20, canvas.getHeight() / 2 - 150, canvas.getWidth(), canvas.getHeight() / 2+ 150, white);
-                //canvas.drawCircle(canvas.getWidth() / 2 - 20, canvas.getHeight() / 2 - 20, 20, white);
                 //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
 
+                field.render(canvas);
                 paddle1.render(canvas);
+                paddle2.render(canvas);
+                gameball.render(canvas);
                 holder.unlockCanvasAndPost(canvas);
             }
         }
-
-        //public void init() {
-            //Paddle paddle1 = new Paddle(Color.WHITE, 10, canvas.getHeight() - 150 , 30, canvas.getHeight() + 150);
-
-        //}
 
         public void pause(){
             started = false;
