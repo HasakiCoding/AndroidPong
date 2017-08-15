@@ -23,6 +23,10 @@ public class Retry extends Activity implements OnTouchListener{
     Paint black = new Paint();
     static int width = 20, height = 300;
     static float radius = 30;
+    Rectangle field;
+    Paddle paddle1;
+    Paddle paddle2;
+    Ball gameball;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +58,6 @@ public class Retry extends Activity implements OnTouchListener{
         SurfaceHolder holder;
         boolean started = false, setup = false;
         Canvas canvas;
-        Rectangle field;
-        Paddle paddle1;
-        Paddle paddle2;
-        Ball gameball;
         float ballX, ballY;
 
         public OurView(Context context) {
@@ -82,6 +82,9 @@ public class Retry extends Activity implements OnTouchListener{
                     setup = true;
                 }
                 //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
+
+                gameball.centerY += 10;
+                gameball.centerX += 10;
 
                 field.render(canvas);
                 paddle1.render(canvas);
@@ -116,16 +119,13 @@ public class Retry extends Activity implements OnTouchListener{
 
         switch(me.getAction()){
             case MotionEvent.ACTION_DOWN:
-                x = me.getX();
-                y = me.getY();
+                paddle1.centerY = me.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                x = me.getX();
-                y = me.getY();
+                paddle1.centerY = me.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                x = me.getX();
-                y = me.getY();
+                paddle1.centerY = me.getY();
                 break;
         }
         return true;
