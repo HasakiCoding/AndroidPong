@@ -6,13 +6,11 @@ import android.os.Bundle;
 public class Game extends Activity {
 
     GameView v;
-    //Bitmap ball;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         v = new GameView(this);
-        //ball = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
         setContentView(v);
     }
 

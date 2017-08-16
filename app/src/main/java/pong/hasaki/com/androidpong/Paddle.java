@@ -5,17 +5,16 @@ import android.graphics.Paint;
 
 public class Paddle {
 
-    Rectangle pad;
-    int color;
     float left, top, right, bottom, centerX, centerY, width, height;
+    Paint p = new Paint();
 
     Paddle(int color, float centerX, float centerY, float width, float height) {
-        this.color = color;
         this.centerX = centerX;
         this.centerY = centerY;
         this.width = width;
         this.height = height;
-        //pad = new Rectangle(color, centerX, centerY, width, height);
+        p.setColor(color);
+        p.setStyle(Paint.Style.FILL);
     }
 
     public void render(Canvas canvas) {
@@ -23,14 +22,11 @@ public class Paddle {
         this.right = centerX + width / 2;
         this.top = centerY - height / 2;
         this.bottom = centerY + height / 2;
-        Paint p = new Paint();
-        p.setColor(color);
-        p.setStyle(Paint.Style.FILL);
         canvas.drawRect(left, top, right, bottom, p);
     }
 
-    public void reset(double x, double y){
-        centerX = (float)x;
-        centerY = (float)y;
+    public void reset(float x, float y){
+        centerX = x;
+        centerY = y;
     }
 }

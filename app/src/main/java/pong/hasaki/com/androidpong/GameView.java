@@ -17,18 +17,13 @@ public class GameView extends SurfaceView implements Runnable {
     boolean started = false, setup = false;
     Canvas canvas;
 
-    Rectangle field, top, left, bot, right;
+    Rectangle field;
     Paddle paddle1;
     Paddle paddle2;
     Ball gameball;
 
     static int width = 20, height = 300;
     static float radius = 30;
-
-    int sc1, sc2;
-
-    //int directionX = 10;
-    //int speedX = 10;
 
     public GameView(Context context) {
         super(context);
@@ -63,17 +58,11 @@ public class GameView extends SurfaceView implements Runnable {
                 gameball.reset(canvas.getWidth(), canvas.getHeight());
                 setup = true;
             }
-            //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
             gameball.move(gameball.speedX, gameball.speedY);
             comp2();
             collide();
             gameRender(canvas);
             holder.unlockCanvasAndPost(canvas);
-            /*try {
-                Thread.sleep(5);
-            } catch (InterruptedException e){
-                e.printStackTrace();
-            }*/
         }
     }
 
@@ -98,10 +87,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void init(Canvas canvas){
         field = new Rectangle(BLACK, 0, 0, canvas.getWidth(), canvas.getHeight());
-        top = new Rectangle(WHITE, 0, 0, canvas.getWidth(), 0);
-        left = new Rectangle(WHITE, 0, 0, 0, canvas.getHeight());
-        bot = new Rectangle(WHITE, 0, canvas.getHeight(), canvas.getWidth(), 0);
-        right = new Rectangle(WHITE, canvas.getWidth(), 0, 0, canvas.getHeight());
         paddle1 = new Paddle(WHITE, 10, canvas.getHeight() / 2 , width, height);
         paddle2 = new Paddle(WHITE, canvas.getWidth() - 10, canvas.getHeight() / 2, width, height);
         gameball = new Ball(WHITE, canvas.getWidth() / 2 - radius, canvas.getHeight() / 2 - radius, radius);
@@ -116,29 +101,12 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void reset(){
         gameball.reset(canvas.getWidth(), canvas.getHeight());
-        paddle1.reset(10, canvas.getHeight() * 0.5);
-        paddle1.reset(10, canvas.getHeight() * 0.5);
+        paddle1.reset(10, canvas.getHeight() / 2);
+        paddle1.reset(10, canvas.getHeight() / 2);
     }
 
     public void collide() {
-        if(gameball.collide(top.centerX, top.centerY, top.width, top.height) || gameball.collide(bot.centerX, bot.centerY, bot.width, bot.height)){
-            gameball.speedY = -gameball.speedY;
-            speedUp();
-        }
-        if(gameball.collide(paddle1.centerX, paddle1.centerY, paddle1.width, paddle1.height) || gameball.collide(paddle2.centerX, paddle2.centerY, paddle2.width, paddle2.height)){
-            gameball.speedX = -gameball.speedX;
-            speedUp();
-        }
-        if(gameball.collide(right.centerX, right.centerY, right.width, right.height)){
-            sc1 ++;
-            reset();
-        } else if(gameball.collide(left.centerX, left.centerY, left.width, left.height)){
-            sc2 ++;
-            reset();
-        }
-        /*if (gameball.centerY - gameball.radius <= 0) {
-            gameball.speedY = -gameball.speedY;
-        } else if (gameball.centerY + gameball.radius >= canvas.getHeight()) {
+        if (gameball.centerY - gameball.radius <= 0 || gameball.centerY + gameball.radius >= canvas.getHeight()) {
             gameball.speedY = -gameball.speedY;
         } else if (Math.abs(gameball.centerX - paddle1.centerX) <= gameball.radius + (paddle1.width * 0.5) && Math.abs(gameball.centerY - paddle1.centerY) <= gameball.radius + (paddle1.height * 0.5)) {
             gameball.speedX = -gameball.speedX;
@@ -150,7 +118,7 @@ public class GameView extends SurfaceView implements Runnable {
         } else if (gameball.centerX + gameball.radius >= canvas.getWidth()) {
             gameball.speedX = -gameball.speedX;
             reset();
-        }*/
+        }
     }
 
     public void comp2() {
@@ -159,10 +127,5 @@ public class GameView extends SurfaceView implements Runnable {
         } else if(paddle2.centerY > gameball.centerY + 35){
             paddle2.centerY -= 15;
         }
-    }
-
-    public void speedUp(){
-        gameball.speedX += 1;
-        gameball.speedY += 1;
     }
 }

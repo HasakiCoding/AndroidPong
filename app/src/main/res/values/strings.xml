@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">AndroidPong</string>
     <string name="btnstart">Start</string>
-    <string name="btnrestart">Another Try</string>
 </resources>
