@@ -5,6 +5,7 @@ import android.graphics.Paint;
 
 public class Paddle {
 
+    Rectangle pad;
     int color;
     float left, top, right, bottom, centerX, centerY, width, height;
 
@@ -14,6 +15,7 @@ public class Paddle {
         this.centerY = centerY;
         this.width = width;
         this.height = height;
+        //pad = new Rectangle(color, centerX, centerY, width, height);
     }
 
     public void render(Canvas canvas) {

@@ -69,6 +69,11 @@ public class GameView extends SurfaceView implements Runnable {
             collide();
             gameRender(canvas);
             holder.unlockCanvasAndPost(canvas);
+            /*try {
+                Thread.sleep(5);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }*/
         }
     }
 
@@ -116,18 +121,18 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void collide() {
-        if(gameball.collide(top) || gameball.collide(bot){
+        if(gameball.collide(top.centerX, top.centerY, top.width, top.height) || gameball.collide(bot.centerX, bot.centerY, bot.width, bot.height)){
             gameball.speedY = -gameball.speedY;
-            gameball.speedUp();
+            speedUp();
         }
-        if(gameball.collide(paddle1) || gameball.collide(paddle2){
+        if(gameball.collide(paddle1.centerX, paddle1.centerY, paddle1.width, paddle1.height) || gameball.collide(paddle2.centerX, paddle2.centerY, paddle2.width, paddle2.height)){
             gameball.speedX = -gameball.speedX;
-            gameball.speedUp();
+            speedUp();
         }
-        if(gameball.collide(right){
+        if(gameball.collide(right.centerX, right.centerY, right.width, right.height)){
             sc1 ++;
             reset();
-        } else if(gameball.collide(left){
+        } else if(gameball.collide(left.centerX, left.centerY, left.width, left.height)){
             sc2 ++;
             reset();
         }
@@ -147,11 +152,17 @@ public class GameView extends SurfaceView implements Runnable {
             reset();
         }*/
     }
-        public void comp2() {
-            if(paddle2.centerY < gameball.centerY - 35){
-                paddle2.centerY += 15;
-            } else if(paddle2.centerY > gameball.centerY + 35){
-                paddle2.centerY -= 15;
-            }
+
+    public void comp2() {
+        if(paddle2.centerY < gameball.centerY - 35){
+            paddle2.centerY += 15;
+        } else if(paddle2.centerY > gameball.centerY + 35){
+            paddle2.centerY -= 15;
         }
+    }
+
+    public void speedUp(){
+        gameball.speedX += 1;
+        gameball.speedY += 1;
+    }
 }

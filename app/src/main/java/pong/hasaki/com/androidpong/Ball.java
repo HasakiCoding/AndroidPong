@@ -34,17 +34,14 @@ public class Ball {
         this.centerX = width / 2 - radius;
         this.centerY = height / 2 - radius;
         speedX = (Math.signum(Math.random() * 2 - 1) * Math.ceil(Math.random() * 2 + 9));
-        speedY = (Math.signum(Math.random() * 2 - 1) * 20 - Math.abs(speedX));
+        speedY = (Math.signum(Math.random() * 2 - 1) * Math.ceil(Math.random() * 2 + 9));
     }
 
-    public boolean collide(object) {
-        if (Math.abs(centerX - object.centerX) <= radius + (object.width * 0.5) && Math.abs(centerY - object.centerY) <= radius + (object.height * 0.5)) {
+    public boolean collide(float oCenterX, float oCenterY, float oWidth, float oHeight ) {
+        if ((Math.abs(centerX - oCenterX) <= radius + (oWidth * 0.5) && Math.abs(centerY - oCenterY) <= radius + (oHeight * 0.5))){
             return true;
+        } else {
+            return false;
         }
-    }
-
-    public void speedUp(){
-        speedX ++;
-        speedY ++;
     }
 }

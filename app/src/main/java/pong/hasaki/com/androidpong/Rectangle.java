@@ -6,30 +6,33 @@ import android.graphics.Paint;
 public class Rectangle {
 
     int color;
-    float left, top, right, bottom;
-    double centerX, centerY;
+    float left, top, right, bottom, centerX, centerY, width, height;
 
     Rectangle(int color, int left,  int top, int width, int height) {
         this.color = color;
-        this.left = left;
+        this.width = width;
+        this.height = height;
+        /*this.left = left;
         this.top = top;
         this.right = left + width;
-        this.bottom = top + height;
-        this.centerX = left + width * 0.5;
-        this.centerY = top + height * 0.5;
+        this.bottom = top + height;*/
+        this.centerX = left + width / 2;
+        this.centerY = top + height / 2;
     }
 
-    Rectangle(int color, int left,  int top, int width, int height) {
+    Rectangle(int color, float centerX, float centerY, float width, float height) {
         this.color = color;
-        this.left = left;
-        this.top = top;
-        this.right = left + width;
-        this.bottom = top + height;
-        this.centerX = left + width * 0.5;
-        this.centerY = top + height * 0.5;
+        this.width = width;
+        this.height = height;
+        this.centerX = centerX;
+        this.centerY = centerY;
     }
 
     public void render(Canvas canvas){
+        this.left = centerX - width / 2;
+        this.right = centerX + width / 2;
+        this.top = centerY - height / 2;
+        this.bottom = centerY + height / 2;
         Paint p = new Paint();
         p.setColor(color);
         p.setStyle(Paint.Style.FILL);
