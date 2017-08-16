@@ -15,7 +15,7 @@ public class Ball {
         this.centerX = centerX;
         this.centerY = centerY;
         //p.setColor(color);
-        p.setStyle(Paint.Style.FILL);
+        //p.setStyle(Paint.Style.FILL);
     }
 
     public void render(Canvas canvas, Bitmap ball) {
