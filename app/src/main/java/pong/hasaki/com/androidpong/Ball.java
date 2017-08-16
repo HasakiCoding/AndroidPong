@@ -1,11 +1,12 @@
 package pong.hasaki.com.androidpong;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class Ball {
 
-    float centerX, centerY, radius;
+    float centerX, centerY, radius, left, top;
     double speedX, speedY;
     Paint p = new Paint();
 
@@ -13,12 +14,15 @@ public class Ball {
         this.radius = radius;
         this.centerX = centerX;
         this.centerY = centerY;
-        p.setColor(color);
+        //p.setColor(color);
         p.setStyle(Paint.Style.FILL);
     }
 
-    public void render(Canvas canvas) {
-        canvas.drawCircle(centerX, centerY, radius, p);
+    public void render(Canvas canvas, Bitmap ball) {
+        this.left = centerX - radius;
+        this.top = centerY - radius;
+        //canvas.drawCircle(centerX, centerY, radius, p);
+        canvas.drawBitmap(ball, left, top, p);
     }
 
     public void move(double moveX, double moveY) {

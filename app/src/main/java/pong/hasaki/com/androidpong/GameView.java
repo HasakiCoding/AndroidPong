@@ -97,7 +97,7 @@ public class GameView extends SurfaceView implements Runnable {
         field.render(canvas);
         paddle1.render(canvas);
         paddle2.render(canvas);
-        gameball.render(canvas);
+        gameball.render(canvas, ball);
     }
 
     public void reset(){
