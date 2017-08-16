@@ -5,11 +5,22 @@ import android.os.Bundle;
 
 public class Game extends Activity {
 
-    GameView GV;
+    GameView v;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GV = new GameView(this);
-        setContentView(GV);
+        v = new GameView(this);
+        setContentView(v);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        v.pause();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        v.resume();
     }
 }
