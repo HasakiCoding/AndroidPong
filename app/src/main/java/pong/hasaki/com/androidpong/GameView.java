@@ -25,6 +25,8 @@ public class GameView extends SurfaceView implements Runnable {
     static int width = 20, height = 300;
     static float radius = 30;
 
+    int sc1, sc2;
+
     //int directionX = 10;
     //int speedX = 10;
 
@@ -109,10 +111,27 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void reset(){
         gameball.reset(canvas.getWidth(), canvas.getHeight());
+        paddle1.reset(10, canvas.getHeight() * 0.5);
+        paddle1.reset(10, canvas.getHeight() * 0.5);
     }
 
     public void collide() {
-        if (gameball.centerY - gameball.radius <= 0) {
+        if(gameball.collide(top) || gameball.collide(bot){
+            gameball.speedY = -gameball.speedY;
+            gameball.speedUp();
+        }
+        if(gameball.collide(paddle1) || gameball.collide(paddle2){
+            gameball.speedX = -gameball.speedX;
+            gameball.speedUp();
+        }
+        if(gameball.collide(right){
+            sc1 ++;
+            reset();
+        } else if(gameball.collide(left){
+            sc2 ++;
+            reset();
+        }
+        /*if (gameball.centerY - gameball.radius <= 0) {
             gameball.speedY = -gameball.speedY;
         } else if (gameball.centerY + gameball.radius >= canvas.getHeight()) {
             gameball.speedY = -gameball.speedY;
@@ -126,7 +145,7 @@ public class GameView extends SurfaceView implements Runnable {
         } else if (gameball.centerX + gameball.radius >= canvas.getWidth()) {
             gameball.speedX = -gameball.speedX;
             reset();
-        }
+        }*/
     }
         public void comp2() {
             if(paddle2.centerY < gameball.centerY - 35){

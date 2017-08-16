@@ -19,6 +19,16 @@ public class Rectangle {
         this.centerY = top + height * 0.5;
     }
 
+    Rectangle(int color, int left,  int top, int width, int height) {
+        this.color = color;
+        this.left = left;
+        this.top = top;
+        this.right = left + width;
+        this.bottom = top + height;
+        this.centerX = left + width * 0.5;
+        this.centerY = top + height * 0.5;
+    }
+
     public void render(Canvas canvas){
         Paint p = new Paint();
         p.setColor(color);

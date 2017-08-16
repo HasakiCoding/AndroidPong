@@ -8,7 +8,7 @@ public class Paddle {
     int color;
     float left, top, right, bottom, centerX, centerY, width, height;
 
-    Paddle(int color, int centerX, int centerY, int width, int height) {
+    Paddle(int color, float centerX, float centerY, float width, float height) {
         this.color = color;
         this.centerX = centerX;
         this.centerY = centerY;
@@ -17,13 +17,18 @@ public class Paddle {
     }
 
     public void render(Canvas canvas) {
-        this.left = this.centerX - width / 2;
-        this.right = this.centerX + width / 2;
-        this.top = this.centerY - height / 2;
-        this.bottom = this.centerY + height / 2;
+        this.left = centerX - width / 2;
+        this.right = centerX + width / 2;
+        this.top = centerY - height / 2;
+        this.bottom = centerY + height / 2;
         Paint p = new Paint();
         p.setColor(color);
         p.setStyle(Paint.Style.FILL);
         canvas.drawRect(left, top, right, bottom, p);
+    }
+
+    public void reset(double x, double y){
+        centerX = (float)x;
+        centerY = (float)y;
     }
 }
