@@ -1,6 +1,8 @@
 package pong.hasaki.com.androidpong;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -21,6 +23,7 @@ public class GameView extends SurfaceView implements Runnable {
     Paddle paddle1;
     Paddle paddle2;
     Ball gameball;
+    Bitmap ball;
 
     static int width = 20, height = 300;
     static float radius = 30;
@@ -33,6 +36,7 @@ public class GameView extends SurfaceView implements Runnable {
     public GameView(Context context) {
         super(context);
         holder = getHolder();
+        ball = BitmapFactory.decodeResource(getResources(), R.drawable.background_1);
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent me) {
@@ -63,7 +67,7 @@ public class GameView extends SurfaceView implements Runnable {
                 gameball.reset(canvas.getWidth(), canvas.getHeight());
                 setup = true;
             }
-            //c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
+            c.drawBitmap(ball, x-(ball.getWidth()/2), y-(ball.getHeight()/2), blue);
             gameball.move(gameball.speedX, gameball.speedY);
             comp2();
             collide();
